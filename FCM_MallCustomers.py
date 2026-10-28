@@ -46,7 +46,11 @@ print(pd.DataFrame(u_baru.T, columns=[f'C{k}' for k in range(C)]).round(3))
 
 pusat = scaler.inverse_transform(cntr)
 fig, ax = plt.subplots(1, 2, figsize=(13, 5))
-ax[0].scatter(X[:, 0], X[:, 1], c=df['Cluster'], cmap='tab10', s=40)
+cmap = plt.get_cmap('tab10', C)
+for k in range(C):
+    anggota = df['Cluster'] == k
+    ax[0].scatter(X[anggota, 0], X[anggota, 1], color=cmap(k), s=40,
+                  label=f'Cluster {k}')
 ax[0].scatter(pusat[:, 0], pusat[:, 1], c='k', marker='X', s=200, label='Centroid')
 ax[0].set(title='Hasil FCM scikit-fuzzy (c=5)', xlabel=fitur[0], ylabel=fitur[1])
 ax[0].legend()
